@@ -50,8 +50,8 @@ function expectimax_player(config::GameConfig,state::GameState, max_depth::Int =
                 ShutTheBox.apply_move!(config,state,config.chance_choices[i])
                 a_max += expectimax(config,state,depth+1,max_depth)*config.chance_distribution[i]
                 ShutTheBox.rollback_move!(config,state)
-                value_table_chance[key] = a_max
             end
+            value_table_chance[key] = a_max
         end
         depth == 0 && return_move && return best_move
         return a_max
@@ -89,12 +89,9 @@ function play_repeat(config::GameConfig, game::GameState, player::Function, verb
     print("wins: $wins\nwin rate: $(wins/n_games)")
 end
 
-function get_win_probability(N = 12)
-    config = GameConfig(N_MAX = N,
-    chance_choices = collect(2:N),
-    chance_distribution = [1/20 for i in 2:N])
+function get_win_probability(config::GameConfig)
     game = GameState(config)
-    expectimax_player(config,game,1000, false)
+    return expectimax_player(config,game,(config.N_MAX+1)*2, false)
 end
 
 function benchmark_code(N)
