@@ -107,25 +107,3 @@ function benchmark_code(N)
         @btime expectimax_player($config,$game,1000)
     end
 end
-
-
-config = GameConfig()
-game = GameState(config)
-play(config, game,human_player,true)
-#=N = 5:   36.417 μs (1787 allocations: 50.75 KiB)
-N = 6:   124.291 μs (6083 allocations: 178.14 KiB)
-N = 7:   372.959 μs (21216 allocations: 490.52 KiB)
-N = 8:   1.047 ms (63048 allocations: 1.45 MiB)
-N = 9:   2.975 ms (171110 allocations: 4.16 MiB)
-N = 10:  7.817 ms (445518 allocations: 9.67 MiB)
-N = 11:  20.158 ms (1129011 allocations: 25.53 MiB)
-N = 12:  50.546 ms (2791266 allocations: 58.89 MiB)
-N = 13:  134.549 ms (6778359 allocations: 147.40 MiB)
-N = 14:  324.611 ms (16187922 allocations: 336.18 MiB)
-N = 15:  967.654 ms (38176016 allocations: 828.33 MiB)
-N = 18:  15.576 s (469282756 allocations: 9.72 GiB)
-N = 20:  81.945 s (2400037074 allocations: 49.19 GiB)=#
-using Plots
-x = [5,6,7,8,9,10,11,12,13,14,15,18,20]
-y = [0.036417,0.124291,0.372959,1.047,2.975,7.817,20.158,50.546,134.549,324.611,967.654,15576,81945]
-plot(x, y)
