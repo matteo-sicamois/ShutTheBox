@@ -23,7 +23,7 @@ function random_player(config::GameConfig, game::GameState)
     return rand(game.legal_moves)
 end
 
-function expectimax_player(config::GameConfig,state::GameState, max_depth::Int = 100)
+function expectimax_player(config::GameConfig,state::GameState, max_depth::Int = 100, return_move::Bool = true)
     value_table_player = Dict{Int, Float64}()
     value_table_chance = Dict{Int, Float64}()
     function expectimax(config::GameConfig,state::GameState, depth::Int = 0, max_depth::Int = 100)
@@ -53,7 +53,7 @@ function expectimax_player(config::GameConfig,state::GameState, max_depth::Int =
                 value_table_chance[key] = a_max
             end
         end
-        #depth == 0 && return best_move
+        depth == 0 && return_move && return best_move
         return a_max
     end
     return expectimax(config ,state, 0 , max_depth)
@@ -89,12 +89,12 @@ function play_repeat(config::GameConfig, game::GameState, player::Function, verb
     print("wins: $wins\nwin rate: $(wins/n_games)")
 end
 
-function test(N = 12)
+function get_win_probability(N = 12)
     config = GameConfig(N_MAX = N,
     chance_choices = collect(2:N),
     chance_distribution = [1/20 for i in 2:N])
     game = GameState(config)
-    expectimax_player(config,game,1000)
+    expectimax_player(config,game,1000, false)
 end
 
 function benchmark_code(N)
